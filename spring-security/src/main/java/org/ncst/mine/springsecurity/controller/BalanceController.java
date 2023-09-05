@@ -1,15 +1,28 @@
 package org.ncst.mine.springsecurity.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.ncst.mine.springsecurity.entity.AccountTransactions;
+import org.ncst.mine.springsecurity.repository.AccountTransactionsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("balance")
 public class BalanceController {
 
-    @RequestMapping(method = RequestMethod.GET, path = "/getBalances")
-    public String getBalanceDetails() {
-        return "Here are balance details from the DB";
+    @Autowired
+    private AccountTransactionsRepository accountTransactionsRepository;
+
+    @GetMapping("/myBalance")
+    public List<AccountTransactions> getBalanceDetails(@RequestParam int id) {
+        List<AccountTransactions> accountTransactions = accountTransactionsRepository.
+                findByCustomerIdOrderByTransactionDtDesc(id);
+        if (accountTransactions != null ) {
+            return accountTransactions;
+        }else {
+            return null;
+        }
     }
 }

@@ -1,21 +1,26 @@
 package org.ncst.mine.springsecurity.controller;
 
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.ncst.mine.springsecurity.entity.Accounts;
+import org.ncst.mine.springsecurity.repository.AccountsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("account")
 public class AccountController {
 
-    @RequestMapping(method = RequestMethod.GET, path = "/getAccounts")
-    public String getAccountDetails() {
-        return "Here are the account details from the DB";
+    @Autowired
+    private AccountsRepository accountsRepository;
+
+    @GetMapping("/myAccount")
+    public Accounts getAccountDetails(@RequestParam int id) {
+        Accounts accounts = accountsRepository.findByCustomerId(id);
+        if (accounts != null ) {
+            return accounts;
+        }else {
+            return null;
+        }
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/help")
-    public String help() {
-        return "This is UserController helping";
-    }
 }
