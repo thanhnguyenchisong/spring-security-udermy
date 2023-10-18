@@ -11,6 +11,14 @@ import java.io.IOException;
 
 public class CsrfCookieFilter extends OncePerRequestFilter {
 
+    /**
+     * Set csrf token for all response
+     * @param request
+     * @param response
+     * @param filterChain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {

@@ -23,7 +23,7 @@ public class ProjectSecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
-        requestHandler.setCsrfRequestAttributeName("_csrf");
+        requestHandler.setCsrfRequestAttributeName("_csrf"); //the CsrfRequestAttributeName must same as name in CookieCsrfTokenRepository
 
         http.securityContext((context) -> context.requireExplicitSave(false))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
@@ -35,9 +35,10 @@ public class ProjectSecurityConfig {
                     config.setAllowedHeaders(List.of("*"));
                     config.setMaxAge(3600L);
                     return config;
-                })).csrf((csrf) -> csrf.csrfTokenRequestHandler(requestHandler).ignoringRequestMatchers("/contact", "/register")
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-                        .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                })).csrf((csrf) -> csrf.csrfTokenRequestHandler(requestHandler)
+                        .ignoringRequestMatchers("/contact", "/register")
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())) //CookieCsrfTokenRepository to generate, save and load csrf token, withHttpOnlyFalse set XSRF-TOKEN cookie to the front-end
+                        .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class) //CsrfCookieFilter will run after BasicAuthenticationFilter
                 .authorizeHttpRequests((requests)->requests
                         .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards", "/user").authenticated()
                         .requestMatchers("/notices", "/contact", "/register").permitAll())

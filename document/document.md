@@ -83,4 +83,11 @@ It isn't allow post and put operation create or update data in DB, by default th
 
 Situation - User can be steal all information in webside cookie, credential or sessionID. TO know diffentiate bw legitimate user and hacker we introduce the CSRF token
 
+Follow for implement CSRF
+When user login in UI -> UI recived csrf token from BackEnd then store that in session -> in all other requests they will use this csrf token in
+session to attach in request -> Server reviced csrf and do the compare
+
+- In the case our stateless API use token based authentication such as JWT, we don't need CSRF protection, we must disable it.
+- Attracker just teal the cookie easier because it's store in our browser but JWT token is store some where in our code where they can't found out and we often refresh the JwtToken.
+
   
