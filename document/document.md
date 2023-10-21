@@ -131,4 +131,14 @@ WebServer (Tomcat, OpenLiberty, ...) translate HTTP messages for Java code to un
 `How can we inject our custom filter`
 They provide the method addFilterBefore(), addFilterAfter, addFilterAt
 
+## 9. JWT
+
+### JSESSIONID and issues with it
+- It stored in cookie of browser
+- When call to BE that cookie will be automaticaly appended by your browser
+
+`With JSESSIONID works great extent for smaller applications, but in enterprise will not be sufficient because 2 reasons`
+- This token doesn't hold any user data that just is a ramdomly generated value so it is't giving any ability to store some user data inside that token.
+- It saved as a cookie inside your browser and this cookie will be tied to user session, if end user isn't closing his browser and ss still is valie -> good chance someone can misuse this kind of tokens with just store inside the browser as cookies
+- 
 
