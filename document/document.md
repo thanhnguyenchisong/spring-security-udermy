@@ -140,5 +140,17 @@ They provide the method addFilterBefore(), addFilterAfter, addFilterAt
 `With JSESSIONID works great extent for smaller applications, but in enterprise will not be sufficient because 2 reasons`
 - This token doesn't hold any user data that just is a ramdomly generated value so it is't giving any ability to store some user data inside that token.
 - It saved as a cookie inside your browser and this cookie will be tied to user session, if end user isn't closing his browser and ss still is valie -> good chance someone can misuse this kind of tokens with just store inside the browser as cookies
-- 
+
+### b. Role of Tokens in Authn and Authz
+- Token can be plain string of fotmat UUID or it can be of type JWT ussalyly
+- Client login -> recived token from server response -> interact with server by this token  -> server valid and do the jobs.
+
+`ADVANTAGES`
+- Token helps us to share the credentials for every request, it's a security risk to send creasentials over the network frequently
+- Token can be invalidated during any suspicious activities without invalidating the user credentials
+- Tokens can be created with a short life span
+- Tokens can be used to store the user related information like toles/authorities
+- Reusablity - we can have many separate server, running on mulple platform and domain, reusing the same toejn for thenticating the user.
+- Stateless, easier to scale. token contains all the infor to identify user. elimimating the need for session state. If we use load balancer, we can pass the user to any server, instead of being bound to same server we logged in on
+- We already used token in previous sections in form of CSRF and JSEESIONID tokens
 
