@@ -133,7 +133,7 @@ They provide the method addFilterBefore(), addFilterAfter, addFilterAt
 
 ## 9. JWT
 
-### JSESSIONID and issues with it
+### a. JSESSIONID and issues with it
 - It stored in cookie of browser
 - When call to BE that cookie will be automaticaly appended by your browser
 
@@ -149,8 +149,22 @@ They provide the method addFilterBefore(), addFilterAfter, addFilterAt
 - Token helps us to share the credentials for every request, it's a security risk to send creasentials over the network frequently
 - Token can be invalidated during any suspicious activities without invalidating the user credentials
 - Tokens can be created with a short life span
-- Tokens can be used to store the user related information like toles/authorities
+- Tokens can be used to store the user related information like roles/authorities
 - Reusablity - we can have many separate server, running on mulple platform and domain, reusing the same toejn for thenticating the user.
-- Stateless, easier to scale. token contains all the infor to identify user. elimimating the need for session state. If we use load balancer, we can pass the user to any server, instead of being bound to same server we logged in on
+- Stateless, easier to scale. token contains all the infor to identify user. elimimating the need for session state (store something in server ). If we use load balancer, we can pass the user to any server, instead of being bound to same server we logged in on
 - We already used token in previous sections in form of CSRF and JSEESIONID tokens
 
+### c. JWT
+- JSON Web Token with JSON format and designed to use for the web requests. It is used for both Authen and Autho
+`Advantages`
+- Store and share the user-related inside the token itself
+   - Header : infor about token as alg, typ
+   - Payload: Detail releated to user such as sub, name, iat
+   - Singature (Optional): Server digitally sign that token so in future, if someone trying to tamper the token, server can detect that faster and easier by singature
+
+
+Internaly, we can use firewall to protect our application, all app in internal can connect each others, so don't need the singature, don't need to checking the security just checking for some user information. But about externaly, someone can change the JWT token about role and send the token to server, we need to check so we can check Singature = CHMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), your_secret). There are no one can change your JWT because they can't fake the Singature due they don't know your secret.
+
+
+#### c.1 JWT implementation in Spring Security
+- Import libs to help generate JWT token. io.jsonwebtoken group with artifactId jjwt-id, jjwt-impl, jjwt-jackson.
