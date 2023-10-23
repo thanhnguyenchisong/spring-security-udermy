@@ -166,5 +166,19 @@ They provide the method addFilterBefore(), addFilterAfter, addFilterAt
 Internaly, we can use firewall to protect our application, all app in internal can connect each others, so don't need the singature, don't need to checking the security just checking for some user information. But about externaly, someone can change the JWT token about role and send the token to server, we need to check so we can check Singature = CHMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), your_secret). There are no one can change your JWT because they can't fake the Singature due they don't know your secret.
 
 
-#### c.1 JWT implementation in Spring Security
+#### c.1 `JWT implementation in Spring Security`
 - Import libs to help generate JWT token. io.jsonwebtoken group with artifactId jjwt-id, jjwt-impl, jjwt-jackson.
+- Tell the SpringSecurity don't generate SESSIONID
+- Config to exposeHeader authrorization to allow send the authentication token from BE to UI
+- Generate the JWT token in a filter which for login process only, then set that token to response header of login-process, to order running that filter, we addFilterAfter BasicAuthenticationFilter
+- Valid the JWT which is recieved from UI - Use signature to valid is good performanc. Better than request DB manytime to valid - `TODO`: check more in source code
+
+## 10. Method Level Security
+We have applied authorization rules on the API paths using SpringSecurity. Method Level security allows to apply the authorization tiles at any layer of an application like service layer or repo layer. Ennable by @EnnablMethodSecurity
+
+-> It can support authz rules even in the non-web application where we won't have nay endpoints.
+
+`Prodvides`
+- Invocation authorization - validates if someone can invoke a method or not based on their roles/authorities.
+- Filtering authoz ...
+
