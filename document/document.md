@@ -174,11 +174,32 @@ Internaly, we can use firewall to protect our application, all app in internal c
 - Valid the JWT which is recieved from UI - Use signature to valid is good performanc. Better than request DB manytime to valid - `TODO`: check more in source code
 
 ## 10. Method Level Security
-We have applied authorization rules on the API paths using SpringSecurity. Method Level security allows to apply the authorization tiles at any layer of an application like service layer or repo layer. Ennable by @EnnablMethodSecurity
+We have applied authorization rules on the API paths using SpringSecurity. Method Level security allows to apply the authorization tiles at any layer of an application like service layer or repo layer. Ennable by @EnnablMethodSecurity in application class.
 
 -> It can support authz rules even in the non-web application where we won't have nay endpoints.
 
 `Prodvides`
 - Invocation authorization - validates if someone can invoke a method or not based on their roles/authorities.
 - Filtering authoz ...
+- Anotation @PreAuthorize(run before go in the method)/@PostAuthorize(run after method return value) , hasRole - hasAuthority - hasAnyRole
+- Can use @PreFilter to filter the input params object which will not accepted in that methods - filter for collections => so the method run without that params which match filter condition.
+- @PostFilter : Run the method first -> then do the filter -> if your logic is insert-update. it will persist to DB before filtering.
 
+`To do method level sercurity they use Spring AOP - that is best practice`
+
+Some demo description
+
+
+## `11. OAUTH2`
+Situation: Eveythings such as business logic, security logic, authentication, authorization are clubbed in single application - It can work for single application but if you have multiple applications and all of them need security => We gotta separate security logic into a separate commponent 
+
+`Need a common component for authentication and authorization`
+
+`OAUTH2`
+Common Security to without sharing credentials bw many services, without duplicate logic and all the change in one place but applied for all the other services
+
+### a. OAuth
+OAuth stands for Open Authorization, it's free and open protocol, built on IETF standards and licenses from Open Web Foundation. It is very old
+
+### b. OAuth2
+is a security standard where you give one application permission to access your data in another application, the steps to grant permisstion, or consent, are often referred to as authorization or even delegated authorization. You authoriza one application to access your data, or use features in another application on your behalf without giving them the password.
