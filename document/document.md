@@ -198,8 +198,52 @@ Situation: Eveythings such as business logic, security logic, authentication, au
 `OAUTH2`
 Common Security to without sharing credentials bw many services, without duplicate logic and all the change in one place but applied for all the other services
 
-### a. OAuth
+### 11.1 OAuth
 OAuth stands for Open Authorization, it's free and open protocol, built on IETF standards and licenses from Open Web Foundation. It is very old
 
-### b. OAuth2
+### 11.2. OAuth2
 is a security standard where you give one application permission to access your data in another application, the steps to grant permisstion, or consent, are often referred to as authorization or even delegated authorization. You authoriza one application to access your data, or use features in another application on your behalf without giving them the password. Refrence `https://oauth.net/2/`
+
+### 11.3 OAuth2 Terminology
+ - Resource owner: The end user
+ - Client: Application interact with some application after taking permistion from resource owner
+ - Authorization Server: Which knows about resource owner. The resource owner should have an account in this server, that can be the server which provide the authorization logic.
+ - Resource Server: This is server where the APIs, services that client want to consume are hosted
+ - Scopes: granular permissions the Client wants, such as access to data or to perform certain actions.
+**In screnario TweetAnalyzer** that need the your tweeter permission to access and get data for analyzing in TweetAnalyzer.
+Resource owner is you the end user, Client is TweetAnalyzer, Authorization Server is Twitter server, Resource Server is Twitter server. And Scope is read_tweets
+
+`Note` In small application Authorization Server and Resource Server is one server but for big application as google that is different resource server.
+
+### 11.4 OAuth2 Sample folow for TweetAnalyzer screnario
+ - `Step 1` TweetAnalyzer team will reach out to Twitter and express their interest working with them by allowing their user to login with Twitter -> The twitter team collect the details, logo etc from TweetAnalyzer and issued a `ClientID` & `Client Secret`
+ - `Step 2` Resource owner visited TweetAnalyzer website and excited about the idea and decided to use the website -> Resouce owner click to "Signup wwith Twitter". The end user licked on it and boom it has redirect the user to Twitter login page.
+ - `Step 3` The resource owner entered his credentials -> post successful Authentication, the twitter will display a consent page asking the user if he is fine to share his Tweet data READ ONLY scope to client which is TweetAnalyzer app. He said YES.
+ - `Step 4` The Twitter Authorization server issue an access & refresh tokens to the TweetAnalyzer website -> ACCESS & REFRESH tokens are random complex strings which are tough to guess. Client stores tokens for future interaction with Twitter server
+ - `Step 5` My TweetAnalyzer send the request to resource server with access token which is received from step 4 -> Twitter server validates the access token with the Auth server and if it is valid, it return the resource owner Tweets data inside the response.
+ - `Step 6` TweetAnalyzer process it and display a report to it's end user -> End user can looks at report and he is super happy.
+
+### 11.5 Deep dive on Authorization code grant type flow in OAUTH2
+Check sample in `https://oauth.com/playground/`
+
+Refresh token:
+User login then having token and refresh token. With refresh token the client can get the new access token by this token.
+
+
+### 11.6 OpenID (OIDC = OpenID Connect)
+- That is a protocol that sits on top of the OAuth2.0  framework. Wile Oauth2.0 provides authorization via an access token containing scopes, OpenID connect provides authentication by introducing a new ID token which contains a new set of information and claims specifically for identify
+- With the ID token, OpenID connect brings standard around sharing identity details among the applications.
+
+`What different bw OIDC and OpenID`
+
+Motivation
+- OAuth2.0 you getting access_token, scope but client don't know who is my end user, what is his detail as mail  => Some people send the logged in user details to client application =. no uniformity for it => they introduce new concept called OpenID Connect
+- When you implement OpenID Connect - you getting 2 kind of token one is Access Token , one is ID token beside refresh token. Access_Token handle authorization, ID_token handle the user detail
+
+They have uniform of sharing the user details in the form of ID token by OpenID Connect
+
+####  Why OpenID connect importain
+- Identify is key to any application, implement OpenID Connect on top of OAuth2.0 completes an IAM (Identity & Access Management) strategy
+- 
+
+
