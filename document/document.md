@@ -202,4 +202,4 @@ Common Security to without sharing credentials bw many services, without duplica
 OAuth stands for Open Authorization, it's free and open protocol, built on IETF standards and licenses from Open Web Foundation. It is very old
 
 ### b. OAuth2
-is a security standard where you give one application permission to access your data in another application, the steps to grant permisstion, or consent, are often referred to as authorization or even delegated authorization. You authoriza one application to access your data, or use features in another application on your behalf without giving them the password.
+is a security standard where you give one application permission to access your data in another application, the steps to grant permisstion, or consent, are often referred to as authorization or even delegated authorization. You authoriza one application to access your data, or use features in another application on your behalf without giving them the password. Refrence `https://oauth.net/2/`
