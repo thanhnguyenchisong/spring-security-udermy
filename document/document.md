@@ -1,4 +1,4 @@
-# Spring Security
+# Spring Security gihub repo   https://github.com/eazybytes/springsecurity6
 Provide 2 ways store login details.
 - UserDetail interface (user class) -> return UserDetail - have all user infomration as expired time.
 - Principal interface (UsernamePasswordAuthenticationToken class) -> return Authentication(UserPasswordAuthenticationToken) where we try to determine the authenication is success or not inside AuthenticationProvider and AuthenticationManager.
@@ -103,13 +103,13 @@ A user have multiple authorities, A authority can assign for multiple users.
 `Authority`
 - Like an individual privilege (dac quyen ca nhan) or an individual action
 - Restricting access in a fine-grained(y la o muc detail) manner
-- It can complex for enterprise application because thoundsion of APIs. Can't config detail for each controller, API -> role is properly
-Example: VIEWACCOUNT, VIEWCARDS etc
+- It can complex for enterprise application because thousands of APIs. Can't config detail for each controller, API -> role is properly
+Example: VIEWACCOUNT, VIEWCARDS, READ_ONLY, WRITE, etc
 
 `Role`
 - Group of privileges/actions
 - Restricting access in a coarse-grain( y la o muc high level) manner
-- Ex: ADMIN, USER, VIEW
+- Ex: ADMIN, USER, PUBLISHER
 
 `Some points:`
 - The name of authorities/role are arbitrary in nature and these names can be customized as per business requirement
@@ -118,7 +118,6 @@ Example: VIEWACCOUNT, VIEWCARDS etc
 - SpringSecurity provides the hasAuthority, hasAnyAuthorites, access, hasRole, hasAnyRole, access methods to check
 - SpringSecurity provides prefix automatically - so you just need to send name = ADMIN -> SpringS will make it become ROLE_ADMIN to map with ROLE_ADMIN value in DB which is stored in UserDetails
 - Role and Authorities is same one just some small different things. so you can store both in a table `Authority` in DB
-
 
 ## 8. Servlet and Filters
 `Servlet`
@@ -169,9 +168,11 @@ Internaly, we can use firewall to protect our application, all app in internal c
 #### c.1 `JWT implementation in Spring Security`
 - Import libs to help generate JWT token. io.jsonwebtoken group with artifactId jjwt-id, jjwt-impl, jjwt-jackson.
 - Tell the SpringSecurity don't generate SESSIONID
-- Config to exposeHeader authrorization to allow send the authentication token from BE to UI
+- Config to exposeHeader authorization to allow  BE send the authentication token to UI
 - Generate the JWT token in a filter which for login process only, then set that token to response header of login-process, to order running that filter, we addFilterAfter BasicAuthenticationFilter
-- Valid the JWT which is recieved from UI - Use signature to valid is good performanc. Better than request DB manytime to valid - `TODO`: check more in source code
+- Valid the JWT which is received from UI - Use signature to valid is good performance. Better than request DB anytime to valid - `TODO`: check more in source code
+
+`Note` Need to check the Issuer : Person, orgnazation who is issuing JWT token.
 
 ## 10. Method Level Security
 We have applied authorization rules on the API paths using SpringSecurity. Method Level security allows to apply the authorization tiles at any layer of an application like service layer or repo layer. Ennable by @EnnablMethodSecurity in application class.
@@ -229,12 +230,13 @@ Check sample in `https://oauth.com/playground/`
 Refresh token:
 User login then having token and refresh token. With refresh token the client can get the new access token by this token.
 
+### 11.6 OAuth2 flows by playground
+Already have before : Authentication Server.
+
 
 ### 11.6 OpenID (OIDC = OpenID Connect)
 - That is a protocol that sits on top of the OAuth2.0  framework. Wile Oauth2.0 provides authorization via an access token containing scopes, OpenID connect provides authentication by introducing a new ID token which contains a new set of information and claims specifically for identify
 - With the ID token, OpenID connect brings standard around sharing identity details among the applications.
-
-`What different bw OIDC and OpenID`
 
 Motivation
 - OAuth2.0 you getting access_token, scope but client don't know who is my end user, what is his detail as mail  => Some people send the logged in user details to client application =. no uniformity for it => they introduce new concept called OpenID Connect
@@ -242,8 +244,7 @@ Motivation
 
 They have uniform of sharing the user details in the form of ID token by OpenID Connect
 
-####  Why OpenID connect importain
+####  Why OpenID connect important
 - Identify is key to any application, implement OpenID Connect on top of OAuth2.0 completes an IAM (Identity & Access Management) strategy
-- 
 
 
