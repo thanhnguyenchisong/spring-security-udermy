@@ -205,4 +205,85 @@ HTTP/1.1 200 OK
 }
 ```
 
-### 5. OIDC
+### 5. OIDC (Open ID connect)
+This is protocol that sit on top of OAuth2 framework. OIDC provides authentication by introducing a new ID token which contains logged-in user 
+information.
+
+Different with OAuth2 that just provide access token containing scopes only, there are no user information.
+
+`So` OIDC bring standards around sharing identity detail (user information - that is not the sensitive personal information) among the 
+application.
+
+Just need to remember - the most processes are same exepted for we have one more field ID Token when use OIDC.
+![ODIC_defination.png](..%2Fimages%2FODIC_defination.png)
+#### Step 1: Build the Authorization URL
+OpenID connect support many same flows as OAuth 2.0. End of OpenID connect process, the client ends up with ID token which contains signed in user 
+information. The token is encoded and signed and client can parse it directly.
+
+Same OAuth2.0 we also generate the `state`, don't forget store it.
+But in this, we need to generate the `nonce` parameter as well.
+```
+https://authorization-server.com/authorize?
+  response_type=code
+  &client_id=vmc9N9LVYQG4y3tH0yKKuHC6
+  &redirect_uri=https://oauth.com/playground/oidc.html
+  &scope=openid+profile+email+photos
+  &state=-S9Mb1qMD2GV-lc9
+  &nonce=n183hH4KQPDlAetw
+```
+
+#### Step 2: Verify the state parameter
+The response from request in `step 1`:
+```
+?state=-S9Mb1qMD2GV-lc9&code=O0aGWjSFut04BRl-FVy5XgrjF4rX5ssGPr5K2dQLG0g1wIHa
+```
+Compare response state with your state. if it's matched then continue.
+
+#### Step 3: Exchange the Authorization Code.
+Now we exchange authorization code for an access token
+Call to this POST endpoint.
+```
+POST https://authorization-server.com/token
+
+grant_type=authorization_code
+&client_id=vmc9N9LVYQG4y3tH0yKKuHC6
+&client_secret=chrmHwxJkQags0CcOJq4yTrbeViroNUBqUGFqAmt_ccjB3st
+&redirect_uri=https://oauth.com/playground/oidc.html
+&code=O0aGWjSFut04BRl-FVy5XgrjF4rX5ssGPr5K2dQLG0g1wIHa
+```
+
+Response
+```
+{
+  "token_type": "Bearer",
+  "expires_in": 86400,
+  "access_token": "YYuzHq8qTfVzK1nFgaY5QtIsw9CiG7MIi2Yt8Ypzfjd8fpu4TWWVOuGIm6l93YT_spF4jHlO",
+  "scope": "openid profile email photo",
+  "id_token": "eyJraWQiOiJzMTZ0cVNtODhwREo4VGZCXzdrSEtQUkFQRjg1d1VEVGxteW85SUxUZTdzIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJ0ZXN0eS11bmljb3JuQGV4YW1wbGUuY29tIiwibmFtZSI6IlRlc3R5IFVuaWNvcm4iLCJlbWFpbCI6InRlc3R5LXVuaWNvcm5AZXhhbXBsZS5jb20iLCJpc3MiOiJodHRwczovL3BrLWRlbW8ub2t0YS5jb20vb2F1dGgyL2RlZmF1bHQiLCJhdWQiOiJ2bWM5TjlMVllRRzR5M3RIMHlLS3VIQzYiLCJpYXQiOjE3MDk3NDExMDQsImV4cCI6MTcxMjMzMzEwNCwiYW1yIjpbInB3ZCJdfQ.ZoPvZPaomdOnnz2GFRGbgaW7PPWIMFDqSBp0gbN4An4a9F-Bc-4_T9EBGV8aGetyjZYAON0gjNV0p0NGFiwettePWKuxBzusuGCEd9iXWWUO9-WTF5e2AGr3_jkg34dbxfiFXy3KgH7m0czm809cMaiZ_ofLYgJHVD8lqMQoWifhoNhpjPqa19Svc3nCHzSYHUgTXQWvA56NmQvyVPh_OM7GMpc6zHopmihJqt3eREof8N-bOd7FL39jeam2-k1TFSDogyJE513aC0OssRADr_TWvtL8xoaPkXM_7bXYs9_7erXmzF9la0hvmOuasieetpLhOvFeoiOJWCU9xhxj4Q"
+}
+```
+- access_token: Your application use access_token to access other application on behalf of user.
+- id_token: The logged-in user information was encoded and signed, client can parse it to get user information - this is JWT token. 
+
+
+---------------------------
+# Other than
+## Refresh work follow.
+![refresh_token_work_follow.png](..%2Fimages%2Frefresh_token_work_follow.png)
+## Resource validation work follow in OAuth2
+#### Solution 1: Resource server token validation using directly API call
+![authorization_work_follow_1.png](..%2Fimages%2Fauthorization_work_follow_1.png)
+#### Solution 2: Resource server token validation using DB
+![authorization_work_follow_2.png](..%2Fimages%2Fauthorization_work_follow_2.png)
+#### Solution 3: (Recommended)
+Resource Server connect to Authorization Server, maybe during start up of web application so can get the public
+certificate from my authorization server. So using the same public certificate, when apllication send the access token to resource server that can 
+be validated by using public key, that is similarly with the help of `digital signatures` which is in JWT token.
+
+![authorization_work_follow_3.png](..%2Fimages%2Fauthorization_work_follow_3.png)
+
+## Grant type in OAuth2.
+- Authorization code grant type
+- Client Credentials grant type
+- Refresh token grant type : when access token was expired
+- Implicit token grant type
