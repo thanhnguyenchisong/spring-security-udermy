@@ -287,3 +287,29 @@ be validated by using public key, that is similarly with the help of `digital si
 - Client Credentials grant type
 - Refresh token grant type : when access token was expired
 - Implicit token grant type
+
+-----------------------------------------------------
+# `Create your authorization server`
+![authorization_server_keycloak.png](..%2Fimages%2Fauthorization_server_keycloak.png)
+
+#### 1. Setup KeyCloak Auth Server
+Open source Identity and Access Management
+
+`Other choice to build Auth Server` : Okta (https://okta.com), ForgeRock (https://forgerock.com), Amazon Cognito(https://aws.amazon.com/cognito), ...
+all of those are commercial products.
+For currently, we use Keycloak because 2 reasons - Open Source and stable product and Keycloak team always do a very good job in updating Keycloak maintain by RedHat
+
+Setup: https://www.keycloak.org/getting-started/getting-started-docker or you can run with setup version.
+
+#### 2. Create Real
+![img.png](img.png)
+Realm is space in Keycloak. You can create realm based on environment (prod, int, dev, local)
+
+#### 3. Register your application with AuthServer (KeyCloak) by create client.
+![img_1.png](img_1.png)
+#### 4. Setup resource server
+EZBank backend application (your services), add the lib `spring-boot-starter-oauth2-resource-server`
+
+#### 3 Expose the API for communication.
+- Angular call to AuthServer to get access token then send to resource server
+- Resource server call to AuthServer to verify the access token.
