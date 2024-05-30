@@ -21,6 +21,8 @@ https://authorization-server.com/authorize?
 - state is your random string which is use in authentication server.
 You should store your state in somewhere - cookie, session or some other way.
 
+`Login form will be provided by OAuth server` after login success the link will redirect to `redirect_uri`
+
 Your application call this url then login form appear for inputing your username and password
 #### Step 2. After the user redirect back to client, verify the state matches.
 The user was redirected to the client (which request to authorization server)
@@ -312,4 +314,25 @@ EZBank backend application (your services), add the lib `spring-boot-starter-oau
 
 #### 3 Expose the API for communication.
 - Angular call to AuthServer to get access token then send to resource server
+  - We can use the lib which is provided in npm to build the request to OAuthServer like `Keycloak`
 - Resource server call to AuthServer to verify the access token.
+
+
+
+
+`Note` As you know, OAuth2 we have the redirect_uri which is the url after you loggin success from OathServer and O
+
+
+------------------
+## We have finished the KeyCloak with user which is registed from your side
+## How we can use social logins to login our application
+1. Go to `Identity provider`
+2. Choose your social login
+3. Input the Client ID and Client Secret which provided by your social login.
+![img_2.png](img_2.png)
+
+You can image.
+KeyCloak as Oauth server with Angular but KeyCloak is client with Social Auth Server
+
+![img_3.png](img_3.png)
+`You can see the github login in your login oauth server`

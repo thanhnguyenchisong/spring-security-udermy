@@ -67,6 +67,11 @@ Demand 3 parameter with 2 firsts are same mean with BCrypt and SCrypt, last one 
  - authenticate method : received and return Authentication object. we can implement all our custom authentication logic inside this method.
  - supports method: true id current AP supports the type of Authentication object provided. 
 
+`We should have mutiple Authentication Provider`
+- For username/pass login
+- For OAuth2
+- For OPT authentication
+
 ## 4. `CORS & CSRF`
 #### a. `CORS - Cross-Origin Resource Sharing`
 - Enables scripts running on browser client to interact with resource from a different origin.
@@ -248,3 +253,5 @@ They have uniform of sharing the user details in the form of ID token by OpenID 
 - Identify is key to any application, implement OpenID Connect on top of OAuth2.0 completes an IAM (Identity & Access Management) strategy
 
 
+public facing client applications like native and single-page applications are involved ?
+Proof Key for Code Exchange
