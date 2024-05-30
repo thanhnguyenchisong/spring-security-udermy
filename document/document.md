@@ -25,6 +25,7 @@ Some public algorithms used for encoding: ASCII, BASE64, UNICODE, UTF8
 - Can be reversible by using decryption with the help of `key`
 
 As long as the `key` is confidential, encryption can be considered as secured
+Example: RSA
 
 ### c. `Hashing`
 - Data is converted to hash value using some hashing function
